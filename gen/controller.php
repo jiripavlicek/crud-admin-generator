@@ -104,7 +104,7 @@ $app->match('/__TABLENAME__/download', function (Symfony\Component\HttpFoundatio
     if( !$rowid || !$fieldname ) die("Invalid data");
     
     $find_sql = "SELECT " . $fieldname . " FROM " . __TABLENAME__ . " WHERE ".$idfldname." = ?";
-    $row_sql = $app['db']->fetchAssoc($find_sql, array($rowid));
+    $row_sql = $app['db']->fetchAssoc($find_sql, array((int)$rowid));
 
     if(!$row_sql){
         $app['session']->getFlashBag()->add(
@@ -197,7 +197,7 @@ __FIELDS_FOR_FORM__
 $app->match('/__TABLENAME__/edit/{id}', function ($id) use ($app) {
 
     $find_sql = "SELECT * FROM `__TABLENAME__` WHERE `__TABLE_PRIMARYKEY__` = ?";
-    $row_sql = $app['db']->fetchAssoc($find_sql, array($id));
+    $row_sql = $app['db']->fetchAssoc($find_sql, array((int)$id));
 
     if(!$row_sql){
         $app['session']->getFlashBag()->add(
@@ -257,11 +257,11 @@ __FIELDS_FOR_FORM__
 $app->match('/__TABLENAME__/delete/{id}', function ($id) use ($app) {
 
     $find_sql = "SELECT * FROM `__TABLENAME__` WHERE `__TABLE_PRIMARYKEY__` = ?";
-    $row_sql = $app['db']->fetchAssoc($find_sql, array($id));
+    $row_sql = $app['db']->fetchAssoc($find_sql, array((int)$id));
 
     if($row_sql){
         $delete_query = "DELETE FROM `__TABLENAME__` WHERE `__TABLE_PRIMARYKEY__` = ?";
-        $app['db']->executeUpdate($delete_query, array($id));
+        $app['db']->executeUpdate($delete_query, array((int)$id));
 
         $app['session']->getFlashBag()->add(
             'success',
